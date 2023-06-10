@@ -1,0 +1,135 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Cabin', sans-serif;
+}
+
+:root {
+  --side-margins: 60px;
+}
+
+.app-wrapper {
+  width: 100%;
+  background-color: aqua;
+}
+
+
+
+/* Navbar component */
+
+.navbar-wrapper {
+  background: rgb(63,94,251);
+  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(208,129,145,1) 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 120px;
+}
+
+.trollface-title-wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: var(--side-margins);
+}
+
+.logo {
+  height: 80px;
+}
+
+.title {
+  margin-left: 40px;
+  font-size: 2.5rem;
+}
+
+.peripheral-text {
+  margin-right: var(--side-margins);
+  font-size: 1.4rem;
+}
+
+
+
+/* Main() component */
+
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputs-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+}
+
+.inputs-wrapper, .button-wrapper {
+  margin: auto;
+  margin-top: 20px;
+}
+
+.text-input {
+  font-size: 1.2rem;
+}
+
+.text-input, .button {
+  padding: 10px;
+  width: 300px;
+  border: none;
+}
+
+.text-input, .button, .current-meme-image {
+  border-radius: 8px;
+}
+
+.button {
+  color: white;
+  font-size: 1rem;
+}
+
+.get-new-image {
+  background: rgb(131,58,180);
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(226,13,0,1) 49%, rgba(252,176,69,1) 100%);
+}
+
+.submit {
+  background: rgb(131,58,180);
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(226,13,0,1) 49%, rgba(252,176,69,1) 100%);
+}
+
+.right-input, .submit {
+  margin-left: 20px;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.current-meme-image {
+  max-height: 620px;
+  width: 620px;
+  background-color: rgb(120, 120, 184);
+}
+
+
+
+/* MemeList() component */
+
+
+.meme-list-wrapper {
+  margin-top: 40px;
+    border: 4px solid black;
+    height: 500px;
+    width: 100%;
+}
+
+.saved-memes-title-wrapper {
+  background-color: white;
+}
+
+.saved-memes-title {
+  height: 80px;
+  line-height: 80px;
+  font-size: 2rem;
+  margin-left: 40px;
+}
