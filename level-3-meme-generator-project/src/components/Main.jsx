@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import trollface from '../assets/trollface-transparent.png'
+import trollface from '../assets/trollface-transparent.png' // temporary
 import MemeList from './MemeList'
 
 export default function Main () {
@@ -25,7 +25,12 @@ export default function Main () {
                     <button className='submit button'>Submit</button>
                 </div>
             </div>
-            <img className="current-meme-image" src={trollface} />
+            <div className="meme-block-wrapper">
+                <img className="current-meme-image" src={trollface} />
+                <h2 className='meme-text meme-text-top'>Top Text</h2>
+                <h2 className='meme-text meme-text-bottom'>Bottom Text</h2>
+            </div>
+             
             <MemeList />
         </main>
     )
