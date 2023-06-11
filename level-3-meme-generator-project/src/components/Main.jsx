@@ -108,13 +108,6 @@ export default function Main () {
         setEditSaveButtonValue("Save")
     }
 
-
-
-    console.log(`current texts:`)
-    console.log(currentTexts)
-    console.log(`saved memes:`)
-    console.log(savedMemes)
-
     const utilities = {
         currentTexts: currentTexts,
         showEditField: showEditField,

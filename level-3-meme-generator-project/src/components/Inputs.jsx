@@ -6,9 +6,6 @@ export default function Inputs (props) {
         props.handleChange(name, value)
     }
 
-    console.log(`inside inputs, next line is props.displayTexts`)
-    console.log(props.displayTexts)
-
     return (
         <div className="inputs-wrapper">
             <input type="text" className='text-input left-input' name={`topText${props.stateCounter}`} value={props.displayTexts[`topText${props.stateCounter}`]} onChange={updateText} placeholder='Top Text' />
