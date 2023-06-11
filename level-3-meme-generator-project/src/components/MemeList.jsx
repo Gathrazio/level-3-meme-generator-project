@@ -10,6 +10,22 @@ export default function MemeList (props) {
     // const memeElements = props.memeData.map(meme => <MemeElement id={someGeneratedId} topText={meme.topText} bottomText={meme.bottomText} image={meme.image} />)
     // we could alternatively just pass in the whole meme object like meme={meme}. We would just need to change how we access the data in the MemeElement component
 
+    /* 
+    
+    <MemeList savedMemes={savedMemes} 
+              utilities={utilities}     
+    />
+    
+    */
+
+    const weave = (array, something) => array.map(item => [item, something]).flat().slice(0, -1);
+
+    const memeElements = props.savedMemes.map(meme => <MemeElement 
+        key={meme.id} 
+        data={meme} 
+        utilities={props.utilities}
+    />)
+
     return (
         <div className="meme-list-wrapper">
             <div className="saved-memes-title-wrapper">
@@ -17,7 +33,7 @@ export default function MemeList (props) {
                     Saved Memes
                 </h3>
             </div>
-            {/* {memeElements} */}
+            {weave(memeElements, <hr />)}
         </div>
     )
 }
