@@ -18,6 +18,9 @@ export default function MemeList (props) {
                 </h3>
             </div>
             {/* {memeElements} */}
+            <MemeElement />
+            <hr />
+            <MemeElement />
         </div>
     )
 }
