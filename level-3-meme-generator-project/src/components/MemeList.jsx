@@ -34,6 +34,7 @@ export default function MemeList (props) {
                 </h3>
             </div>
             {weave(memeElements, <hr />)}
+            {memeElements.length > 0 && <div className="buffer"></div>}
         </div>
     )
 }

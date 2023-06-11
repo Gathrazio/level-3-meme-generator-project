@@ -37,7 +37,7 @@ export default function MemeElement (props) {
     return (
         <div className="meme-element-wrapper">
             <div className="inputs-button-wrapper">
-                {props.utilities.showEditField && props.utilities.currentTexts[`topText${props.data.stateCounter}`] && <Inputs displayTexts={props.utilities.currentTexts} stateCounter={props.data.stateCounter} handleChange={props.utilities.handleEditInputChange}/>}
+                {props.utilities.showEditField && (props.utilities.currentTexts[`topText${props.data.stateCounter}`] || props.utilities.currentTexts[`topText${props.data.stateCounter}`] === '') && <Inputs displayTexts={props.utilities.currentTexts} stateCounter={props.data.stateCounter} handleChange={props.utilities.handleEditInputChange}/>}
                 <div className="button-wrapper">
                     <button className='get-new-image button' onClick={handleSaveEditButton} value={props.utilities.editSaveButtonValue}>{props.utilities.editSaveButtonValue}</button>
                     <button className='submit button' onClick={() => props.utilities.deleteMeme(props.data.id)}>Delete</button>
