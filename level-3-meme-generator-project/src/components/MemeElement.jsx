@@ -1,6 +1,5 @@
 import React from 'react'
 import Inputs from './Inputs'
-import trollface from '../assets/trollface-transparent.png' // temporary
 
 export default function MemeElement (props) {
 
@@ -45,7 +44,7 @@ export default function MemeElement (props) {
                 </div>
             </div>
             <div className="meme-block-wrapper">
-                <img className="current-meme-image" src={trollface} />
+                <img className="current-meme-image" src={props.data.image} />
                 <h2 className='meme-text meme-text-top'>{memeTextTop}</h2>
                 <h2 className='meme-text meme-text-bottom'>{memeTextBottom}</h2>
             </div>

@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import { v4 as uuidv4 } from 'uuid';
-import trollface from '../assets/trollface-transparent.png' // temporary
 import MemeList from './MemeList'
 
 export default function Main () {
@@ -25,7 +24,7 @@ export default function Main () {
     const [editSaveButtonValue, setEditSaveButtonValue] = useState("Edit");
     const [uniqueStateCounter , setUniqueStateCounter] = useState(0);
     const [memeImageLibrary, setMemeImageLibrary] = useState([]);
-    const [memeImage, setMemeImage] = useState('');
+    const [memeImage, setMemeImage] = useState('https://i.imgflip.com/1bgw.jpg');
 
     useEffect(() => {
         fetch("https://api.imgflip.com/get_memes")
@@ -36,8 +35,6 @@ export default function Main () {
     function rollForNewMeme () {
         setMemeImage(memeImageLibrary[random(100)].url)
     }
-
-    console.log(memeImageLibrary[0].url)
 
 
     function handleInputChange (e) {
@@ -55,7 +52,8 @@ export default function Main () {
             id: uuidv4(),
             stateCounter: stateCounter,
             [`topText${uniqueStateCounter}`]: currentTexts.interfaceTopText,
-            [`bottomText${uniqueStateCounter}`]: currentTexts.interfaceBottomText
+            [`bottomText${uniqueStateCounter}`]: currentTexts.interfaceBottomText,
+            image: memeImage
         }])
         setCurrentTexts({
             interfaceTopText: "",
@@ -64,10 +62,9 @@ export default function Main () {
     }
 
     function deleteMeme (id) {
-        let memeIndex;
         savedMemes.forEach((meme, index) => {
             if (meme.id === id) {
-                setSavedMemes(prev => [].concat(prev).splice(memeIndex, 1))
+                setSavedMemes(prev => prev.toSpliced(index, 1))
                 return;
             }
         })
