@@ -47,10 +47,9 @@ export default function Main () {
     }
 
     function deleteMeme (id) {
-        let memeIndex;
         savedMemes.forEach((meme, index) => {
             if (meme.id === id) {
-                setSavedMemes(prev => [].concat(prev).splice(memeIndex, 1))
+                setSavedMemes(prev => prev.toSpliced(index, 1))
                 return;
             }
         })
