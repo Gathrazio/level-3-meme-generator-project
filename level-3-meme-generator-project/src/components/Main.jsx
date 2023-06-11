@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import { v4 as uuidv4 } from 'uuid';
-import trollface from '../assets/trollface-transparent.png' // temporary
 import MemeList from './MemeList'
 
 export default function Main () {
+
+    const random = (max) => Math.floor(Math.random() * max);
 
     // State should be centralized here in Main()
     // Meaning state for the values of the input boxes and an array of meme element objects
@@ -22,6 +23,19 @@ export default function Main () {
     const [showEditField, setShowEditField] = useState(false);
     const [editSaveButtonValue, setEditSaveButtonValue] = useState("Edit");
     const [uniqueStateCounter , setUniqueStateCounter] = useState(0);
+    const [memeImageLibrary, setMemeImageLibrary] = useState([]);
+    const [memeImage, setMemeImage] = useState('https://i.imgflip.com/1bgw.jpg');
+
+    useEffect(() => {
+        fetch("https://api.imgflip.com/get_memes")
+        .then(res => res.json())
+        .then(readable => setMemeImageLibrary(readable.data.memes))}, [])
+
+
+    function rollForNewMeme () {
+        setMemeImage(memeImageLibrary[random(100)].url)
+    }
+
 
     function handleInputChange (e) {
         const {name, value} = e.target;
@@ -38,7 +52,8 @@ export default function Main () {
             id: uuidv4(),
             stateCounter: stateCounter,
             [`topText${uniqueStateCounter}`]: currentTexts.interfaceTopText,
-            [`bottomText${uniqueStateCounter}`]: currentTexts.interfaceBottomText
+            [`bottomText${uniqueStateCounter}`]: currentTexts.interfaceBottomText,
+            image: memeImage
         }])
         setCurrentTexts({
             interfaceTopText: "",
@@ -54,16 +69,6 @@ export default function Main () {
             }
         })
     }
-
-    /*
-
-    [].concat(prev).splice(index, 1, {
-                    id: meme.id,
-                    topText: currentTexts.topText,
-                    bottomText: currentTexts.bottomText
-                })
-
-    */
 
     function saveEdit (id, counter) {
         savedMemes.forEach((meme, index) => {
@@ -101,7 +106,6 @@ export default function Main () {
         }))
         setShowEditField(prev => !prev)
         setEditSaveButtonValue("Save")
-        
     }
 
 
@@ -130,12 +134,12 @@ export default function Main () {
                 <input type="text" className='text-input right-input' name='interfaceBottomText' value={currentTexts.interfaceBottomText} onChange={handleInputChange} placeholder='Bottom Text' />
             </div>
                 <div className="button-wrapper">
-                    <button className='get-new-image button'>Get New Meme Image</button>
+                    <button className='get-new-image button' onClick={rollForNewMeme}>Get New Meme Image</button>
                     <button className='submit button' onClick={addMeme}>Submit</button>
                 </div>
             </div>
             <div className="meme-block-wrapper">
-                <img className="current-meme-image" src={trollface} />
+                <img className="current-meme-image" src={memeImage} />
                 <h2 className='meme-text meme-text-top'>{currentTexts.interfaceTopText}</h2>
                 <h2 className='meme-text meme-text-bottom'>{currentTexts.interfaceBottomText}</h2>
             </div>
