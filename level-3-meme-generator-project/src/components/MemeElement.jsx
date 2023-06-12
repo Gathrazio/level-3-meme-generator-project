@@ -2,15 +2,12 @@ import React from 'react'
 import Inputs from './Inputs'
 
 export default function MemeElement (props) {
-
     /*
-
-    const memeElements = props.savedMemes.map(meme => <MemeElement 
-        key={meme.id} 
-        data={meme} --> id, stateCounter, topText, bottomText
-        utilities={props.utilities}
-    />)
-
+        <MemeElement 
+            key={meme.id} 
+            data={meme} // -> meme = {id, stateCounter, topText*, bottomText*, img}
+            utilities={props.utilities}
+        />
     */
 
     function handleSaveEditButton (e) {
@@ -33,14 +30,17 @@ export default function MemeElement (props) {
         memeTextBottom = props.data[`bottomText${props.data.stateCounter}`]
     }
 
+    let inputCondition = Boolean(props.utilities.currentTexts[`topText${props.data.stateCounter}`]) || props.utilities.currentTexts[`topText${props.data.stateCounter}`] === '';
+
+    let buttonValueCondition = Boolean(props.utilities.currentTexts[`topText${props.data.stateCounter}`]) || props.utilities.currentTexts[`topText${props.data.stateCounter}`] === '';
 
     return (
         <div className="meme-element-wrapper">
             <div className="inputs-button-wrapper">
-                {props.utilities.showEditField && (props.utilities.currentTexts[`topText${props.data.stateCounter}`] || props.utilities.currentTexts[`topText${props.data.stateCounter}`] === '') && <Inputs displayTexts={props.utilities.currentTexts} stateCounter={props.data.stateCounter} handleChange={props.utilities.handleEditInputChange}/>}
+                {inputCondition && <Inputs displayTexts={props.utilities.currentTexts} stateCounter={props.data.stateCounter} handleChange={props.utilities.handleInputChange}/>}
                 <div className="button-wrapper">
-                    <button className='get-new-image button' onClick={handleSaveEditButton} value={props.utilities.editSaveButtonValue}>{props.utilities.editSaveButtonValue}</button>
-                    <button className='submit button' onClick={() => props.utilities.deleteMeme(props.data.id)}>Delete</button>
+                    <button className='get-new-image button' onClick={handleSaveEditButton} value={buttonValueCondition ? "Save" : "Edit"}>{buttonValueCondition ? "Save" : "Edit"}</button>
+                    <button className='submit button' onClick={() => props.utilities.deleteMeme(props.data.id, props.data.stateCounter)}>Delete</button>
                 </div>
             </div>
             <div className="meme-block-wrapper">

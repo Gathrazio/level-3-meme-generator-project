@@ -6,25 +6,19 @@ export default function Main () {
 
     const random = (max) => Math.floor(Math.random() * max);
 
-    // State should be centralized here in Main()
-    // Meaning state for the values of the input boxes and an array of meme element objects
-    // We can track what's inside the input boxes as things are typed
-    // upon submission, we can take the necessary info (top text value, bottom text value, the image) and update the array of meme element objects
-    // then we can send that array into MemeList as a prop
-    // we should also send in a reference to a function that can edit/delete a particular object in the state array
-
-    // the API call should also take place here within a useEffect()
+    // ↓ State initializations. All state is created and maintained in Main().
 
     const [currentTexts, setCurrentTexts] = useState({
         interfaceTopText: "",
         interfaceBottomText: ""
     });
     const [savedMemes, setSavedMemes] = useState([]);
-    const [showEditField, setShowEditField] = useState(false);
-    const [editSaveButtonValue, setEditSaveButtonValue] = useState("Edit");
     const [uniqueStateCounter , setUniqueStateCounter] = useState(0);
     const [memeImageLibrary, setMemeImageLibrary] = useState([]);
     const [memeImage, setMemeImage] = useState('https://i.imgflip.com/1bgw.jpg');
+
+
+    // ↓ API call inside useEffect with an empty dependencies array so that it only fetches once upon app load
 
     useEffect(() => {
         fetch("https://api.imgflip.com/get_memes")
@@ -32,10 +26,11 @@ export default function Main () {
         .then(readable => setMemeImageLibrary(readable.data.memes))}, [])
 
 
+    // ↓ utility functions, mostly for handling state
+
     function rollForNewMeme () {
         setMemeImage(memeImageLibrary[random(100)].url)
     }
-
 
     function handleInputChange (e) {
         const {name, value} = e.target;
@@ -51,8 +46,8 @@ export default function Main () {
         setSavedMemes(prev => [...prev, {
             id: uuidv4(),
             stateCounter: stateCounter,
-            [`topText${uniqueStateCounter}`]: currentTexts.interfaceTopText,
-            [`bottomText${uniqueStateCounter}`]: currentTexts.interfaceBottomText,
+            [`topText${stateCounter}`]: currentTexts.interfaceTopText,
+            [`bottomText${stateCounter}`]: currentTexts.interfaceBottomText,
             image: memeImage
         }])
         setCurrentTexts({
@@ -61,25 +56,10 @@ export default function Main () {
         })
     }
 
-    function deleteMeme (id) {
+    function deleteMeme (id, counter) {
         savedMemes.forEach((meme, index) => {
             if (meme.id === id) {
                 setSavedMemes(prev => prev.toSpliced(index, 1))
-                return;
-            }
-        })
-    }
-
-    function saveEdit (id, counter) {
-        savedMemes.forEach((meme, index) => {
-            if (meme.id === id) {
-                setSavedMemes(prev => prev.toSpliced(index, 1, {
-                    ...prev[index],
-                    [`topText${counter}`]: currentTexts[`topText${counter}`],
-                    [`bottomText${counter}`]: currentTexts[`bottomText${counter}`]
-                }))
-                setShowEditField(prev => !prev)
-                setEditSaveButtonValue("Edit")
                 setCurrentTexts(prev => {
                     let shallowPrev = {...prev};
                     delete shallowPrev[`topText${counter}`];
@@ -91,31 +71,40 @@ export default function Main () {
         })
     }
 
-    function handleEditInputChange (name, value) {
-        setCurrentTexts (prev => ({
-            ...prev,
-            [name]: value
-        }))
-    }
-
     function initiateEditState (topText, bottomText, stateCounter) {
         setCurrentTexts(prev => ({
             ...prev,
             [`topText${stateCounter}`]: topText,
             [`bottomText${stateCounter}`]: bottomText
         }))
-        setShowEditField(prev => !prev)
-        setEditSaveButtonValue("Save")
     }
+
+    function saveEdit (id, counter) {
+        savedMemes.forEach((meme, index) => {
+            if (meme.id === id) {
+                setSavedMemes(prev => prev.toSpliced(index, 1, {
+                    ...prev[index],
+                    [`topText${counter}`]: currentTexts[`topText${counter}`],
+                    [`bottomText${counter}`]: currentTexts[`bottomText${counter}`]
+                }))
+                setCurrentTexts(prev => {
+                    let shallowPrev = {...prev};
+                    delete shallowPrev[`topText${counter}`];
+                    delete shallowPrev[`bottomText${counter}`];
+                    return shallowPrev;
+                })
+                return;
+            }
+        })
+    }
+
+    // ↓ utilities object, will pass certain state values and functions used to alter state in special ways down to each MemeElement() component through MemeList()
 
     const utilities = {
         currentTexts: currentTexts,
-        showEditField: showEditField,
-        editSaveButtonValue: editSaveButtonValue,
         deleteMeme: deleteMeme,
         saveEdit: saveEdit,
-        setCurrentTexts: setCurrentTexts,
-        handleEditInputChange: handleEditInputChange,
+        handleInputChange: handleInputChange,
         initiateEditState: initiateEditState
     }
 
